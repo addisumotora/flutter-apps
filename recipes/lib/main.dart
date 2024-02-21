@@ -14,7 +14,7 @@ class RecipeApp extends StatelessWidget {
     return MaterialApp(
       title: 'Recipe Calculator',
       theme: theme.copyWith(
-          colorScheme: theme.colorScheme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
         primary: Colors.grey,
         secondary: Colors.black,
       )),
@@ -32,14 +32,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

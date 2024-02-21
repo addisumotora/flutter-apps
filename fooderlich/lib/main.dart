@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     final theme = FooderlichTheme.dark();
     return MaterialApp(
         theme: theme,
-        title: 'Flutter Demo',
+        title: 'fooderlick app',
         home: const Home()
     );
   }
