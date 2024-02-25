@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fooderlich/components/color_button.dart';
 import 'package:fooderlich/components/theme_button.dart';
+import 'package:fooderlich/screens/explore_screen.dart';
 import 'constants.dart';
 
 class Home extends StatefulWidget {
@@ -44,12 +45,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      const Center(
-        child: Text(
-          'Explore Page',
-          style: TextStyle(fontSize: 32.0),
-        ),
-      ),
+      ExploreScreen(),
       const Center(
         child: Text(
           'Order Page',

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fooderlich/components/fooderlich_theme.dart';
+import 'package:fooderlich/models/recipe.dart';
 
 class Card1 extends StatelessWidget {
-  const Card1({super.key});
-
+  const Card1({super.key, required this.recipe});
+  final Recipe recipe;
   final String category = 'Editor\'s Choice';
   final String title = 'The Art of Dough';
   final String description = 'Learn to make the perfect bread.';
