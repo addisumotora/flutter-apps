@@ -1,52 +1,96 @@
 import 'package:flutter/material.dart';
-import 'package:fooderlich/card1.dart';
-import 'package:fooderlich/card2.dart';
-import 'package:fooderlich/card3.dart';
+import 'package:fooderlich/components/color_button.dart';
+import 'package:fooderlich/components/theme_button.dart';
+import 'constants.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({
+    super.key,
+    required this.changeTheme,
+    required this.changeColor,
+    required this.colorSelected,
+    required this.appTitle,
+  });
+
+  final ColorSelection colorSelected;
+  final void Function(bool useLightMode) changeTheme;
+  final void Function(int value) changeColor;
+  final String appTitle;
 
   @override
-  _HomeState createState() => _HomeState();
+  State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
-
-  static List<Widget> pages = <Widget>[
-    const Card1(),
-    const Card2(),
-    const Card3()
+  int tab = 0;
+  List<NavigationDestination> appBarDestinations = const [
+    NavigationDestination(
+      icon: Icon(Icons.home_outlined),
+      label: 'Explore',
+      selectedIcon: Icon(Icons.home),
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.list_outlined),
+      label: 'Orders',
+      selectedIcon: Icon(Icons.list),
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.person_2_outlined),
+      label: 'Account',
+      selectedIcon: Icon(Icons.person),
+    )
   ];
-
-  void _onItemTab(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Fooderlich',
-          style: Theme.of(context).textTheme.titleLarge,
+    final pages = [
+      const Center(
+        child: Text(
+          'Explore Page',
+          style: TextStyle(fontSize: 32.0),
         ),
       ),
-      body: pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTab,
-        selectedItemColor: Theme.of(context).textSelectionTheme.selectionColor,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.card_giftcard), label: 'Card'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.card_giftcard), label: "Card2"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.card_giftcard), label: 'Card3')
+      const Center(
+        child: Text(
+          'Order Page',
+          style: TextStyle(fontSize: 32.0),
+        ),
+      ),
+      const Center(
+        child: Text(
+          'Account Page',
+          style: TextStyle(fontSize: 32.0),
+        ),
+      ),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.appTitle),
+        elevation: 4.0,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        actions: [
+          ThemeButton(
+            changeThemeMode: widget.changeTheme,
+          ),
+          ColorButton(
+            changeColor: widget.changeColor,
+            colorSelected: widget.colorSelected,
+          ),
         ],
+      ),
+      body: IndexedStack(
+        index: tab,
+        children: pages,
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: tab,
+        onDestinationSelected: (index) {
+          setState(() {
+            tab = index;
+          });
+        },
+        destinations: appBarDestinations,
       ),
     );
   }
