@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fooderlich/components/Recipes_screen.dart';
 import 'package:fooderlich/components/color_button.dart';
 import 'package:fooderlich/components/theme_button.dart';
+import 'package:fooderlich/models/tab_manager.dart';
 import 'package:fooderlich/screens/explore_screen.dart';
+import 'package:fooderlich/screens/glocery_screen.dart';
+import 'package:fooderlich/screens/recipes_screen.dart';
+import 'package:provider/provider.dart';
 import 'constants.dart';
 
 class Home extends StatefulWidget {
@@ -46,44 +49,40 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      ExploreScreen(),
+      const ExploreScreen(),
       RecipesScreen(),
-      const Center(
-        child: Text(
-          'Account Page',
-          style: TextStyle(fontSize: 32.0),
-        ),
-      ),
+      const GroceryScreen()
     ];
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.appTitle),
-        elevation: 4.0,
-        backgroundColor: Theme.of(context).colorScheme.background,
-        actions: [
-          ThemeButton(
-            changeThemeMode: widget.changeTheme,
-          ),
-          ColorButton(
-            changeColor: widget.changeColor,
-            colorSelected: widget.colorSelected,
-          ),
-        ],
-      ),
-      body: IndexedStack(
-        index: tab,
-        children: pages,
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: tab,
-        onDestinationSelected: (index) {
-          setState(() {
-            tab = index;
-          });
-        },
-        destinations: appBarDestinations,
-      ),
-    );
+    return Consumer<TabManager>(builder: (context, tabManager, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.appTitle),
+          elevation: 4.0,
+          backgroundColor: Theme.of(context).colorScheme.background,
+          actions: [
+            ThemeButton(
+              changeThemeMode: widget.changeTheme,
+            ),
+            ColorButton(
+              changeColor: widget.changeColor,
+              colorSelected: widget.colorSelected,
+            ),
+          ],
+        ),
+        body: IndexedStack(
+          index: tabManager.selectedTab,
+          children: pages,
+        ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: tabManager.selectedTab,
+          onDestinationSelected: (index) {
+            setState(() {
+              tabManager.goToTab(index);
+            });
+          },
+          destinations: appBarDestinations,
+        ),
+      );
+    });
   }
 }

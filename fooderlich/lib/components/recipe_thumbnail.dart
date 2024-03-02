@@ -17,19 +17,20 @@ class RecipeThumbnail extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child:
-                  Image(image: AssetImage(recipe.imageUrl),fit: BoxFit.cover),
+                  Image(image: AssetImage(recipe.imageUrl), fit: BoxFit.cover),
             ),
           ),
           const SizedBox(height: 10),
-          // 7
-          Text(
-            recipe.title,
-            maxLines: 1,
-            style: Theme.of(context).textTheme.bodyLarge
-          ),
-          Text(
-            recipe.duration,
-            style: Theme.of(context).textTheme.bodyLarge,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(recipe.title,
+                  maxLines: 1, style: Theme.of(context).textTheme.bodyLarge),
+              Text(
+                recipe.duration,
+                style: Theme.of(context).textTheme.bodyLarge,
+              )
+            ],
           )
         ],
       ),

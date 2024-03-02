@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:fooderlich/models/grocery_manager.dart';
+import 'package:fooderlich/models/tab_manager.dart';
+import 'package:provider/provider.dart';
+import 'models/models.dart';
 import 'constants.dart';
 import 'home.dart';
 
@@ -20,9 +23,7 @@ class _YummyState extends State<Yummy> {
 
   void changeThemeMode(bool useLightMode) {
     setState(() {
-      themeMode = useLightMode
-          ? ThemeMode.light 
-          : ThemeMode.dark;
+      themeMode = useLightMode ? ThemeMode.light : ThemeMode.dark;
     });
   }
 
@@ -37,25 +38,31 @@ class _YummyState extends State<Yummy> {
     const appTitle = 'Yummy';
 
     return MaterialApp(
-      title: appTitle,
-      debugShowCheckedModeBanner: false, 
-      themeMode: themeMode,
-      theme: ThemeData(
-        colorSchemeSeed: colorSelected.color,
-        useMaterial3: true,
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
-        colorSchemeSeed: colorSelected.color,
-        useMaterial3: true,
-        brightness: Brightness.dark,
-      ),
-      home: Home(
-        appTitle: appTitle,
-        changeTheme: changeThemeMode,
-        changeColor: changeColor,
-        colorSelected: colorSelected,
-      ),
+        title: appTitle,
+        debugShowCheckedModeBanner: false,
+        themeMode: themeMode,
+        theme: ThemeData(
+          colorSchemeSeed: colorSelected.color,
+          useMaterial3: true,
+          brightness: Brightness.light,
+        ),
+        darkTheme: ThemeData(
+          colorSchemeSeed: colorSelected.color,
+          useMaterial3: true,
+          brightness: Brightness.dark,
+        ),
+        home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => TabManager()),
+            ChangeNotifierProvider(create: (context) => GroceryManager()),
+          ],
+          child: Home(
+            appTitle: appTitle,
+            changeTheme: changeThemeMode,
+            changeColor: changeColor,
+            colorSelected: colorSelected,
+          ),
+        )
     );
   }
 }

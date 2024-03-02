@@ -30,7 +30,7 @@ class Card2 extends StatelessWidget {
             const AuthorCard(
               authorName: 'Mike Katz',
               title: 'Smoothie Connoisseur',
-              imageProvider: AssetImage('assets/mag1.webp'),
+              imageProvider: AssetImage('assets/profile_pics/person_crispy.png'),
             ),
             Expanded(
                 child: Stack(
