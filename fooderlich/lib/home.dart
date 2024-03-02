@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooderlich/components/Recipes_screen.dart';
 import 'package:fooderlich/components/color_button.dart';
 import 'package:fooderlich/components/theme_button.dart';
 import 'package:fooderlich/screens/explore_screen.dart';
@@ -32,12 +33,12 @@ class _HomeState extends State<Home> {
     ),
     NavigationDestination(
       icon: Icon(Icons.list_outlined),
-      label: 'Orders',
+      label: 'Recipes',
       selectedIcon: Icon(Icons.list),
     ),
     NavigationDestination(
       icon: Icon(Icons.person_2_outlined),
-      label: 'Account',
+      label: 'To Buy',
       selectedIcon: Icon(Icons.person),
     )
   ];
@@ -46,12 +47,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final pages = [
       ExploreScreen(),
-      const Center(
-        child: Text(
-          'Order Page',
-          style: TextStyle(fontSize: 32.0),
-        ),
-      ),
+      RecipesScreen(),
       const Center(
         child: Text(
           'Account Page',

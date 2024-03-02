@@ -9,8 +9,9 @@ class ExploreData {
   final List<FoodCategory> categories;
   final List<Post> friendPosts;
   final List<Recipe> recipes;
+  final List<SimpleRecipe> simpleRecipes;
   ExploreData(
-      this.restaurants, this.categories, this.friendPosts, this.recipes);
+      this.restaurants, this.categories, this.friendPosts, this.recipes, this.simpleRecipes);
 }
 
 class MockYummyService {
@@ -18,8 +19,9 @@ class MockYummyService {
     final restaurants = await _getRestaurants();
     final categories = await _getCategories();
     final friendPosts = await _getFriendFeed();
-    final recipes = await _getRecipes();
-    return ExploreData(restaurants, categories, friendPosts, recipes);
+    final recipes = await getRecipes();
+    final simpleRecipes = await getSimpleRecipes();
+    return ExploreData(restaurants, categories, friendPosts, recipes, simpleRecipes);
   }
 
   Future<List<FoodCategory>> _getCategories() async {
@@ -37,8 +39,12 @@ class MockYummyService {
     return restaurants;
   }
 
-  Future<List<Recipe>> _getRecipes() async {
+  Future<List<Recipe>> getRecipes() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     return recipes;
+  }
+  Future<List<SimpleRecipe>> getSimpleRecipes() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    return simpleRecipes;
   }
 }
