@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fooderlich/models/app_state_manager.dart';
 import 'package:fooderlich/models/grocery_manager.dart';
 import 'package:fooderlich/models/tab_manager.dart';
+import 'package:fooderlich/navigation/app_router.dart';
 import 'package:provider/provider.dart';
 import 'models/models.dart';
 import 'constants.dart';
@@ -20,6 +22,9 @@ class Yummy extends StatefulWidget {
 class _YummyState extends State<Yummy> {
   ThemeMode themeMode = ThemeMode.light;
   ColorSelection colorSelected = ColorSelection.pink;
+  late AppRouter _appRouter;
+  final AppStateManager _appStateManager = AppStateManager();
+  final GroceryManager _groceryManager = GroceryManager();
 
   void changeThemeMode(bool useLightMode) {
     setState(() {
@@ -34,8 +39,17 @@ class _YummyState extends State<Yummy> {
   }
 
   @override
+  void initState() {
+    _appRouter = AppRouter(
+      appStateManager: _appStateManager,
+      groceryManager: _groceryManager,
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const appTitle = 'Yummy';
+    const appTitle = 'Fooderlich';
 
     return MaterialApp(
         title: appTitle,
@@ -51,18 +65,13 @@ class _YummyState extends State<Yummy> {
           useMaterial3: true,
           brightness: Brightness.dark,
         ),
-        home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (context) => TabManager()),
-            ChangeNotifierProvider(create: (context) => GroceryManager()),
-          ],
-          child: Home(
-            appTitle: appTitle,
-            changeTheme: changeThemeMode,
-            changeColor: changeColor,
-            colorSelected: colorSelected,
-          ),
-        )
-    );
+        home: Router(routerDelegate: _appRouter)
+          // child: Home(
+          //   appTitle: appTitle,
+          //   changeTheme: changeThemeMode,
+          //   changeColor: changeColor,
+          //   colorSelected: colorSelected,
+          // ),
+        );
   }
 }
