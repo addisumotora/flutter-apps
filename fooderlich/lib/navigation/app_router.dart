@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fooderlich/home.dart';
 import 'package:fooderlich/models/app_state_manager.dart';
 import 'package:fooderlich/models/grocery_manager.dart';
+import 'package:fooderlich/screens/login_screen.dart';
+import 'package:fooderlich/screens/onboarding_screen.dart';
 import 'package:fooderlich/screens/splash_screen.dart';
 
 class AppRouter extends RouterDelegate
@@ -22,7 +25,13 @@ class AppRouter extends RouterDelegate
       key: navigatorKey,
       onPopPage: _handlePopPage,
       pages: [
-        if (!appStateManager.isInitialized) SplashScreen.page()
+        if (!appStateManager.isInitialized) SplashScreen.page(),
+        if (appStateManager.isInitialized && !appStateManager.isLoggedIn)
+          LoginScreen.page(),
+        if (appStateManager.isLoggedIn && !appStateManager.isOnboardingComplete)
+          OnboardingScreen.page(),
+        if (appStateManager.isOnboardingComplete) Home.page(appStateManager.getSelectedTab),
+
       ],
     );
   }
@@ -30,6 +39,9 @@ class AppRouter extends RouterDelegate
   bool _handlePopPage(Route<dynamic> route, result) {
     if (!route.didPop(result)) {
       return false;
+    }
+    if (route.settings.name == 'onboardingPath') {
+      appStateManager.logout();
     }
     return true;
   }
